@@ -3,3 +3,8 @@ target/
 node_modules/
 uploads/
 .vscode/
+src/
+WorkApply/
+*.war
+*.jar
+
