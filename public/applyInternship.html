@@ -76,7 +76,7 @@
         document.getElementById('internshipForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const formData = new FormData(this);
-            const res = await fetch('http://localhost:3000/applyInternship', { method: 'POST', body: formData });
+            const res = await fetch('/applyInternship', { method: 'POST', body: formData });
             const result = await res.json();
             if (result.success) window.location.href = 'Success.html';
             else alert('Error: ' + result.message);

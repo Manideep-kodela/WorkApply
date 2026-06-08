@@ -36,7 +36,7 @@
         <a href="signout.html" class="logout-btn">Logout</a>
     </div>
     <script>
-        fetch('http://localhost:3000/dashboard')
+        fetch('/dashboard')
             .then(res => res.json())
             .then(result => {
                 const tbody = document.getElementById('tableBody');
@@ -49,7 +49,7 @@
                         <td>${row.role}</td>
                         <td>${row.experience || '-'}</td>
                         <td>${row.type}</td>
-                        <td>${row.resume ? '<a href="http://localhost:3000/uploads/' + row.resume + '" target="_blank">Download</a>' : '-'}</td>
+                        <td>${row.resume ? '<a href="/uploads/' + row.resume + '" target="_blank">Download</a>' : '-'}</td>
                     </tr>`).join('');
             })
             .catch(() => {
