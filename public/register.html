@@ -52,7 +52,7 @@
             if (username.length < 6) { error.textContent = 'Name must be at least 6 characters.'; return; }
             if (!email.endsWith('@gmail.com')) { error.textContent = 'Email must end with @gmail.com.'; return; }
             if (!/^(?=.*[A-Z])(?=.*[\W_]).{8,}$/.test(password)) { error.textContent = 'Password must be 8+ chars, one uppercase, one special character.'; return; }
-            const res = await fetch('http://localhost:3000/register', {
+            const res = await fetch('/register', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, email, password })
             });
