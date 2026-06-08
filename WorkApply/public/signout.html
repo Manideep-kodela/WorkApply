@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Sign Out</title></head>
+<body>
+<script>
+    fetch('http://localhost:3000/signout', { method: 'POST' }).finally(() => {
+        window.location.href = 'client_login.html';
+    });
+</script>
+</body>
+</html>

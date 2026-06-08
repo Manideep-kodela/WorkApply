@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Freelance Application</title>
+    <style>
+        .navbar { display: flex; align-items: center; justify-content: space-between; background-color: #333; padding: 10px 20px; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; }
+        .navbar img { height: 50px; }
+        .navbar ul { list-style: none; margin: 0; padding: 0; display: flex; }
+        .navbar ul li a { color: white; text-decoration: none; font-size: 16px; padding: 8px 12px; margin-right: 25px; }
+        .navbar ul li a:hover { background-color: #575757; border-radius: 5px; }
+        body { font-family: Arial, sans-serif; background: url('https://www.techtammina.com/wp-content/uploads/2019/03/Tech-Tammina.png') no-repeat center center fixed; background-size: cover; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; flex-direction: column; }
+        body::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: -1; }
+        .container { background: rgba(255,255,255,0.9); padding: 20px 40px; border-radius: 10px; box-shadow: 0px 10px 20px rgba(0,0,0,0.2); width: 450px; text-align: left; animation: fadeIn 0.5s ease-in-out; margin-top: 80px; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        form { display: flex; flex-direction: column; }
+        label { font-weight: bold; margin-top: 10px; }
+        select, input { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; }
+        button { width: 100%; padding: 10px; margin-top: 8px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #218838; }
+        .skill-box { display: inline-block; background: #f1f1f1; padding: 5px 10px; border-radius: 5px; margin: 5px; }
+        .remove-skill { color: red; cursor: pointer; margin-left: 5px; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <img src="https://www.techtammina.com/wp-content/uploads/2022/04/techlogo.png" alt="Logo">
+        <ul>
+            <li><a href="welcome.html">Home</a></li>
+            <li><a href="https://www.techtammina.com/" target="_blank">Profile</a></li>
+            <li><a href="logout.html">Logout</a></li>
+        </ul>
+    </div>
+    <div class="container">
+        <h1>Freelance Application</h1>
+        <form id="freelanceForm" enctype="multipart/form-data">
+            <label>Name:</label>
+            <input type="text" name="name" required>
+            <label>Email:</label>
+            <input type="email" name="email" required>
+            <label>Skills:</label>
+            <input type="text" id="skillInput" placeholder="Enter skill and click Add">
+            <input type="hidden" id="skillsHidden" name="skills" value="">
+            <button type="button" onclick="addSkill()">Add Skill</button>
+            <div id="skillContainer"></div>
+            <label>Select Role:</label>
+            <select name="role" required>
+                <option value="" disabled selected>-- Select an Option --</option>
+                <option value="Software Trainee">Software Trainee</option>
+                <option value="IT Sales">IT Sales</option>
+                <option value="Business Development Associate">Business Development Associate</option>
+            </select>
+            <label>Work Experience (Years):</label>
+            <select name="experience" required>
+                <option value="" disabled selected>-- Select Experience --</option>
+                <option value="0">0 years</option><option value="1">1 years</option><option value="2">2 years</option>
+                <option value="3">3 years</option><option value="4">4 years</option><option value="5">5 years</option>
+                <option value="6">6 years</option><option value="7">7 years</option><option value="8">8 years</option>
+                <option value="9">9 years</option><option value="10">10 years</option><option value="11">11 years</option>
+                <option value="12">12 years</option>
+            </select>
+            <label>Upload Resume (PDF/DOC, max 5MB):</label>
+            <input type="file" name="resume" accept=".pdf,.doc,.docx" required>
+            <button type="submit">Submit Application</button>
+        </form>
+    </div>
+    <script>
+        let skills = [];
+        function addSkill() {
+            const val = document.getElementById('skillInput').value.trim();
+            if (!val) return;
+            skills.push(val);
+            document.getElementById('skillsHidden').value = skills.join(', ');
+            const span = document.createElement('span');
+            span.className = 'skill-box';
+            span.innerHTML = val + ' <span class="remove-skill" onclick="removeSkill(this, \'' + val + '\')">x</span>';
+            document.getElementById('skillContainer').appendChild(span);
+            document.getElementById('skillInput').value = '';
+        }
+        function removeSkill(el, val) {
+            skills = skills.filter(s => s !== val);
+            document.getElementById('skillsHidden').value = skills.join(', ');
+            el.parentElement.remove();
+        }
+        document.getElementById('freelanceForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const res = await fetch('http://localhost:3000/applyFreelancing', { method: 'POST', body: formData });
+            const result = await res.json();
+            if (result.success) window.location.href = 'Success.html';
+            else alert('Error: ' + result.message);
+        });
+    </script>
+</body>
+</html>

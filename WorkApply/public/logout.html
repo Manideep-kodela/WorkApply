@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Logout</title></head>
+<body>
+<script>
+    sessionStorage.clear();
+    fetch('http://localhost:3000/logout', { method: 'POST' }).finally(() => {
+        window.location.href = 'login.html';
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        .navbar { display: flex; align-items: center; justify-content: space-between; background-color: #333; padding: 10px 20px; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; }
+        .navbar img { height: 50px; }
+        .navbar ul { list-style: none; margin: 0; padding: 0; display: flex; }
+        .navbar ul li a { color: white; text-decoration: none; font-size: 16px; padding: 8px 12px; margin-right: 25px; }
+        .navbar ul li a:hover { background-color: #575757; border-radius: 5px; }
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; }
+        .login-container { width: 300px; margin: 120px auto 0; padding: 20px; background: white; box-shadow: 0px 0px 10px #0000001a; border-radius: 5px; }
+        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+        button { width: 100%; padding: 10px; background: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .error { color: red; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <img src="https://www.techtammina.com/wp-content/uploads/2022/04/techlogo.png" alt="Logo">
+        <ul>
+            <li><a href="welcome.html">Home</a></li>
+            <li><a href="https://www.techtammina.com/" target="_blank">Profile</a></li>
+            <li><a href="logout.html">Logout</a></li>
+        </ul>
+    </div>
+    <div class="login-container">
+        <h2>Login</h2>
+        <p id="error" class="error"></p>
+        <form id="loginForm">
+            <input type="email" name="email" placeholder="Enter Email" required>
+            <input type="password" name="password" placeholder="Enter Password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="register.html">Register here</a></p>
+    </div>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData(this));
+            const res = await fetch('http://localhost:3000/login', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await res.json();
+            if (result.success) {
+                sessionStorage.setItem('username', result.username);
+                window.location.href = 'welcome.html';
+            } else {
+                document.getElementById('error').textContent = result.message;
+            }
+        });
+    </script>
+</body>
+</html>

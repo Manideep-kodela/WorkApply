@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <style>
+        .navbar { display: flex; align-items: center; justify-content: space-between; background-color: #333; padding: 10px 20px; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; }
+        .navbar img { height: 50px; }
+        .navbar ul { list-style: none; margin: 0; padding: 0; display: flex; }
+        .navbar ul li a { color: white; text-decoration: none; font-size: 16px; padding: 8px 12px; margin-right: 25px; }
+        .navbar ul li a:hover { background-color: #575757; border-radius: 5px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; background: linear-gradient(135deg, #74b9ff, #0984e3); }
+        .form-container { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0,0,0,0.2); width: 350px; text-align: center; }
+        h2 { margin-bottom: 20px; color: #2d3436; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; outline: none; }
+        input:focus { border-color: #0984e3; }
+        button { width: 100%; padding: 10px; border: none; border-radius: 5px; background: #0984e3; color: white; font-size: 16px; cursor: pointer; }
+        button:hover { background: #074d8c; }
+        .login-link { margin-top: 15px; font-size: 14px; }
+        .login-link a { color: #0984e3; text-decoration: none; font-weight: bold; }
+        .error { color: red; font-size: 14px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <img src="https://www.techtammina.com/wp-content/uploads/2022/04/techlogo.png" alt="Logo">
+        <ul>
+            <li><a href="welcome.html">Home</a></li>
+            <li><a href="https://www.techtammina.com/" target="_blank">Profile</a></li>
+            <li><a href="logout.html">Logout</a></li>
+        </ul>
+    </div>
+    <div class="form-container">
+        <h2>Register</h2>
+        <p id="error" class="error"></p>
+        <form id="registerForm">
+            <input type="text" id="username" name="username" placeholder="Full Name" required>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <button type="submit">Register</button>
+        </form>
+        <div class="login-link">Already have an account? <a href="login.html">Login here</a></div>
+    </div>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const error = document.getElementById('error');
+            if (username.length < 6) { error.textContent = 'Name must be at least 6 characters.'; return; }
+            if (!email.endsWith('@gmail.com')) { error.textContent = 'Email must end with @gmail.com.'; return; }
+            if (!/^(?=.*[A-Z])(?=.*[\W_]).{8,}$/.test(password)) { error.textContent = 'Password must be 8+ chars, one uppercase, one special character.'; return; }
+            const res = await fetch('http://localhost:3000/register', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email, password })
+            });
+            const result = await res.json();
+            if (result.success) window.location.href = 'login.html';
+            else error.textContent = result.message;
+        });
+    </script>
+</body>
+</html>

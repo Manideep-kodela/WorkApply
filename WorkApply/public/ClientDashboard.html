@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Client Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; }
+        .navbar { background: rgba(0,0,0,0.8); padding: 15px; text-align: center; }
+        .navbar a { color: white; text-decoration: none; margin: 0 15px; font-size: 18px; }
+        .container { width: 90%; margin: 30px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 20px rgba(0,0,0,0.2); }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        th { background: #007BFF; color: white; }
+        tr:hover { background: rgba(0,123,255,0.1); }
+        .logout-btn { display: inline-block; margin-top: 20px; padding: 10px 20px; background: red; color: white; border-radius: 5px; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="welcome.html">Home</a>
+        <a href="#">Dashboard</a>
+        <a href="signout.html">Logout</a>
+    </div>
+    <div class="container">
+        <h2>Client Dashboard - All Applications</h2>
+        <table id="applicationsTable">
+            <thead>
+                <tr>
+                    <th>Name</th><th>Email</th><th>Skills</th><th>Role</th><th>Experience</th><th>Type</th><th>Resume</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <tr><td colspan="7">Loading...</td></tr>
+            </tbody>
+        </table>
+        <a href="signout.html" class="logout-btn">Logout</a>
+    </div>
+    <script>
+        fetch('http://localhost:3000/dashboard')
+            .then(res => res.json())
+            .then(result => {
+                const tbody = document.getElementById('tableBody');
+                if (!result.success) { tbody.innerHTML = '<tr><td colspan="7">Please login as client to view data.</td></tr>'; return; }
+                tbody.innerHTML = result.data.map(row => `
+                    <tr>
+                        <td>${row.name}</td>
+                        <td>${row.email}</td>
+                        <td>${row.skills}</td>
+                        <td>${row.role}</td>
+                        <td>${row.experience || '-'}</td>
+                        <td>${row.type}</td>
+                        <td>${row.resume ? '<a href="http://localhost:3000/uploads/' + row.resume + '" target="_blank">Download</a>' : '-'}</td>
+                    </tr>`).join('');
+            })
+            .catch(() => {
+                document.getElementById('tableBody').innerHTML = '<tr><td colspan="7">Could not load data. Make sure server is running.</td></tr>';
+            });
+    </script>
+</body>
+</html>

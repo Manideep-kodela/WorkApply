@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Client Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; }
+        .navbar { background: rgba(0,0,0,0.8); padding: 15px; text-align: center; }
+        .navbar a { color: white; text-decoration: none; margin: 0 15px; font-size: 18px; }
+        .container { width: 80%; margin: 50px auto; background: rgba(255,255,255,0.9); padding: 20px; border-radius: 10px; box-shadow: 0px 0px 20px rgba(0,0,0,0.5); }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        th { background: #007BFF; color: white; }
+        tr:hover { background: rgba(0,123,255,0.2); }
+        .logout-btn { display: block; width: 150px; margin: 20px auto; padding: 10px; background: red; color: white; text-align: center; border-radius: 5px; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="welcome.html">Home</a>
+        <a href="#">Dashboard</a>
+        <a href="Signout.html">Logout</a>
+    </div>
+    <div class="container">
+        <h2>Client Dashboard</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Skills</th>
+                <th>Role</th>
+                <th>Experience</th>
+                <th>Resume</th>
+            </tr>
+            <!-- Application data will be populated here -->
+        </table>
+        <a href="Signout.html" class="logout-btn">Logout</a>
+    </div>
+</body>
+</html>
